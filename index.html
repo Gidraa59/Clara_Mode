@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <!-- viewport-fit=cover : l'appli occupe tout l'écran de l'iPhone (encoche comprise) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mon appli</title>
+
+  <!-- Réglages pour que l'iPhone la traite comme une vraie appli -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Mon appli">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#4f46e5">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 Liste de courses</h1>
+  </header>
+
+  <main>
+    <!-- Formulaire d'ajout -->
+    <form id="formulaire">
+      <input id="saisie" type="text" placeholder="Ajouter un article…" autocomplete="off" required>
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <!-- La liste est remplie par app.js -->
+    <ul id="liste"></ul>
+
+    <p id="vide" hidden>Ta liste est vide 🎉</p>
+
+    <button id="nettoyer" type="button">Supprimer les articles cochés</button>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

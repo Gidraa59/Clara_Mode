@@ -1,4 +1,45 @@
-// ---------- 1. Données ----------
+// ================= NAVIGATION ENTRE LES ÉCRANS =================
+// Chaque écran est une <section id="vue-NOM"> dans index.html.
+// Tout élément avec data-vue="NOM" (onglets du menu, cartes de l'accueil)
+// affiche l'écran correspondant quand on appuie dessus.
+
+const titre = document.getElementById("titre");
+const sousTitre = document.getElementById("sous-titre");
+
+function afficherVue(nom) {
+  // 1. On montre seulement l'écran demandé
+  document.querySelectorAll(".vue").forEach((v) => {
+    v.hidden = v.id !== "vue-" + nom;
+  });
+
+  // 2. On met en couleur l'onglet actif
+  document.querySelectorAll(".onglet").forEach((o) => {
+    o.classList.toggle("actif", o.dataset.vue === nom);
+  });
+
+  // 3. On met à jour l'en-tête
+  if (nom === "accueil") {
+    const maintenant = new Date();
+    titre.textContent = maintenant.getHours() < 18 ? "Bonjour" : "Bonsoir";
+    const date = maintenant.toLocaleDateString("fr-FR", {
+      weekday: "long", day: "numeric", month: "long",
+    });
+    sousTitre.textContent = date.charAt(0).toUpperCase() + date.slice(1);
+  } else {
+    titre.textContent = document.getElementById("vue-" + nom).dataset.titre;
+    sousTitre.textContent = "";
+  }
+
+  window.scrollTo(0, 0);
+}
+
+// Un seul écouteur pour tous les boutons qui ont un data-vue
+document.addEventListener("click", (e) => {
+  const cible = e.target.closest("[data-vue]");
+  if (cible) afficherVue(cible.dataset.vue);
+});
+
+// ================= LISTE DE COURSES =================
 // Les articles sont stockés dans le téléphone (localStorage), sous forme de texte JSON.
 // Un article = { id: 123, texte: "Lait", fait: false }
 const CLE = "courses-v1";
@@ -17,9 +58,9 @@ function sauvegarder() {
 
 let articles = charger();
 
-// ---------- 2. Affichage ----------
 const liste = document.getElementById("liste");
 const messageVide = document.getElementById("vide");
+const compteur = document.getElementById("compteur-courses");
 
 // On reconstruit toute la liste à chaque changement : simple et suffisant ici.
 function afficher() {
@@ -59,9 +100,13 @@ function afficher() {
   }
 
   messageVide.hidden = articles.length > 0;
+
+  // Petit résumé affiché sur la carte « Courses » de l'accueil
+  const restants = articles.filter((a) => !a.fait).length;
+  if (restants === 0) compteur.textContent = "Rien à acheter";
+  else compteur.textContent = restants + (restants > 1 ? " articles à acheter" : " article à acheter");
 }
 
-// ---------- 3. Actions ----------
 document.getElementById("formulaire").addEventListener("submit", (e) => {
   e.preventDefault(); // empêche le rechargement de la page
   const saisie = document.getElementById("saisie");
@@ -80,10 +125,12 @@ document.getElementById("nettoyer").addEventListener("click", () => {
   afficher();
 });
 
+// ================= DÉMARRAGE =================
 afficher();
+afficherVue("accueil");
 
-// ---------- 4. Mode « appli » : service worker ----------
-// Il met les fichiers en cache pour que l'appli s'ouvre même sans réseau.
+// Mode « appli » : le service worker met les fichiers en cache
+// pour que l'appli s'ouvre même sans réseau.
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }

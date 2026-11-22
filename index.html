@@ -12,29 +12,96 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Mon appli">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#F7F3EC">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- En-tête : le titre change selon l'écran affiché (géré par app.js) -->
   <header>
-    <h1>🛒 Liste de courses</h1>
+    <p id="sous-titre"></p>
+    <h1 id="titre"></h1>
   </header>
 
   <main>
-    <!-- Formulaire d'ajout -->
-    <form id="formulaire">
-      <input id="saisie" type="text" placeholder="Ajouter un article…" autocomplete="off" required>
-      <button type="submit">Ajouter</button>
-    </form>
 
-    <!-- La liste est remplie par app.js -->
-    <ul id="liste"></ul>
+    <!-- ===== ÉCRAN : ACCUEIL ===== -->
+    <section class="vue" id="vue-accueil" data-titre="Accueil">
+      <button class="carte" type="button" data-vue="courses">
+        <span class="carte-titre">Courses</span>
+        <span class="carte-info" id="compteur-courses"></span>
+      </button>
+      <button class="carte" type="button" data-vue="planning">
+        <span class="carte-titre">Planning de la semaine</span>
+        <span class="carte-info">Bientôt disponible</span>
+      </button>
+    </section>
 
-    <p id="vide" hidden>Ta liste est vide 🎉</p>
+    <!-- ===== ÉCRAN : COURSES ===== -->
+    <section class="vue" id="vue-courses" data-titre="Courses" hidden>
+      <form id="formulaire">
+        <input id="saisie" type="text" placeholder="Ajouter un article…" autocomplete="off" required>
+        <button type="submit" class="bouton">Ajouter</button>
+      </form>
 
-    <button id="nettoyer" type="button">Supprimer les articles cochés</button>
+      <ul id="liste"></ul>
+      <p id="vide" class="discret" hidden>Ta liste est vide, bravo !</p>
+
+      <button id="nettoyer" type="button" class="bouton secondaire">Supprimer les articles cochés</button>
+    </section>
+
+    <!-- ===== ÉCRAN : PLANNING (à construire) ===== -->
+    <section class="vue" id="vue-planning" data-titre="Planning" hidden>
+      <p class="discret">Cet écran arrive bientôt.</p>
+    </section>
+
+    <!-- ===== ÉCRAN : NOTES (à construire) ===== -->
+    <section class="vue" id="vue-notes" data-titre="Notes" hidden>
+      <p class="discret">Cet écran arrive bientôt.</p>
+    </section>
+
+    <!-- ===== ÉCRAN : PROFIL (à construire) ===== -->
+    <section class="vue" id="vue-profil" data-titre="Profil" hidden>
+      <p class="discret">Cet écran arrive bientôt.</p>
+    </section>
+
   </main>
+
+  <!-- ===== BARRE DE MENU EN BAS : 5 icônes, celle du milieu = Accueil =====
+       Pour changer un écran : modifie data-vue (nom de l'écran) et l'icône. -->
+  <nav id="menu" aria-label="Menu principal">
+
+    <button class="onglet" type="button" data-vue="courses">
+      <!-- icône panier -->
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      <span>Courses</span>
+    </button>
+
+    <button class="onglet" type="button" data-vue="planning">
+      <!-- icône calendrier -->
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span>Planning</span>
+    </button>
+
+    <!-- Bouton principal au centre : retour à l'accueil -->
+    <button class="onglet-central" type="button" data-vue="accueil" aria-label="Accueil">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </button>
+
+    <button class="onglet" type="button" data-vue="notes">
+      <!-- icône document -->
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></svg>
+      <span>Notes</span>
+    </button>
+
+    <button class="onglet" type="button" data-vue="profil">
+      <!-- icône personne -->
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profil</span>
+    </button>
+
+  </nav>
 
   <script src="app.js"></script>
 </body>

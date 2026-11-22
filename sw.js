@@ -1,7 +1,7 @@
 // Service worker : garde les fichiers de l'appli en cache.
 // IMPORTANT : à chaque fois que tu modifies un fichier, change le numéro de version
 // ci-dessous (v1 -> v2 -> v3…), sinon l'iPhone continuera d'afficher l'ancienne version.
-const VERSION = "mon-appli-v1";
+const VERSION = "mon-appli";
 const FICHIERS = [
   "./",
   "index.html",

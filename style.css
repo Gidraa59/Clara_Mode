@@ -1,13 +1,19 @@
-/* Couleurs et réglages de base, faciles à modifier */
+/* ============ PALETTE : tout se règle ici ============
+   Pour changer l'ambiance de l'appli, modifie seulement ces valeurs. */
 :root {
-  --couleur: #4f46e5;
-  --fond: #f5f5f7;
-  --carte: #ffffff;
-  --texte: #1c1c1e;
-  --gris: #8e8e93;
+  --fond: #F7F3EC;        /* crème chaud */
+  --carte: #FFFDF9;       /* blanc cassé */
+  --texte: #2A2F33;       /* anthracite doux */
+  --discret: #8A8F8C;     /* gris pour les infos secondaires */
+  --bordure: #E8E1D5;     /* contours très légers */
+  --couleur: #2F6F6A;     /* vert sauge profond : couleur principale */
+  --couleur-clair: #DCEBE8; /* version très claire de la principale */
+  --accent: #D98B6A;      /* terracotta : touche de chaleur */
+  --police-titre: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -15,38 +21,95 @@ body {
   background: var(--fond);
   color: var(--texte);
   /* env(safe-area-inset-*) : évite que le contenu passe sous l'encoche / la barre du bas */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
-header {
+/* ---------- En-tête ---------- */
+header { padding: 24px 20px 4px; max-width: 600px; margin: 0 auto; }
+#sous-titre { margin: 0 0 2px; font-size: 0.95rem; color: var(--discret); min-height: 1.2em; }
+h1 {
+  margin: 0;
+  font-family: var(--police-titre);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+/* petit trait de couleur sous le titre */
+h1::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* ---------- Contenu ---------- */
+/* grand padding en bas pour que la barre de menu ne cache pas la fin de la page */
+main {
+  padding: 20px 20px calc(110px + env(safe-area-inset-bottom));
+  max-width: 600px;
+  margin: 0 auto;
+}
+.discret { color: var(--discret); text-align: center; }
+
+/* ---------- Boutons et champs ---------- */
+button { font: inherit; color: inherit; border: none; background: none; cursor: pointer; }
+
+.bouton {
+  padding: 12px 18px;
+  border-radius: 12px;
   background: var(--couleur);
   color: white;
-  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
 }
-h1 { margin: 0; font-size: 1.3rem; }
-
-main { padding: 16px; max-width: 600px; margin: 0 auto; }
-
-#formulaire { display: flex; gap: 8px; margin-bottom: 16px; }
+.bouton.secondaire {
+  width: 100%;
+  margin-top: 20px;
+  background: transparent;
+  color: var(--couleur);
+  border: 1.5px solid var(--couleur);
+}
 
 input[type="text"] {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #d1d1d6;
-  border-radius: 10px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1.5px solid var(--bordure);
+  border-radius: 12px;
+  background: var(--carte);
+  color: var(--texte);
   /* 16px minimum : sinon iOS zoome automatiquement dans le champ */
   font-size: 16px;
 }
+input[type="text"]:focus { outline: none; border-color: var(--couleur); }
 
-button {
-  padding: 12px 16px;
-  border: none;
-  border-radius: 10px;
-  background: var(--couleur);
-  color: white;
-  font-size: 16px;
+/* ---------- Cartes de l'accueil ---------- */
+.carte {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding: 18px;
+  margin-bottom: 12px;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-left: 5px solid var(--couleur);
+  border-radius: 16px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(42, 47, 51, 0.05);
 }
+.carte:nth-child(2) { border-left-color: var(--accent); }
+.carte-titre { font-family: var(--police-titre); font-size: 1.1rem; font-weight: 600; }
+.carte-info { color: var(--discret); font-size: 0.95rem; }
+
+/* ---------- Liste de courses ---------- */
+#formulaire { display: flex; gap: 8px; margin-bottom: 16px; }
 
 ul { list-style: none; margin: 0; padding: 0; }
 
@@ -55,22 +118,64 @@ li {
   align-items: center;
   gap: 12px;
   background: var(--carte);
-  padding: 12px;
-  border-radius: 10px;
+  border: 1px solid var(--bordure);
+  padding: 12px 14px;
+  border-radius: 14px;
   margin-bottom: 8px;
 }
-
-li input[type="checkbox"] { width: 22px; height: 22px; }
+li input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--couleur); }
 li span { flex: 1; font-size: 17px; }
-li.fait span { text-decoration: line-through; color: var(--gris); }
+li.fait span { text-decoration: line-through; color: var(--discret); }
+li .supprimer { color: var(--discret); padding: 4px 8px; font-size: 18px; }
 
-li .supprimer {
-  background: none;
-  color: var(--gris);
-  padding: 4px 8px;
-  font-size: 20px;
+/* ---------- Barre de menu en bas ---------- */
+#menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  height: calc(64px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--carte);
+  border-top: 1px solid var(--bordure);
 }
 
-#vide { text-align: center; color: var(--gris); }
+#menu svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-#nettoyer { width: 100%; margin-top: 16px; background: var(--gris); }
+.onglet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0;
+  font-size: 11px;
+  color: var(--discret);
+}
+.onglet.actif { color: var(--couleur); font-weight: 600; }
+
+/* Bouton central : rond, en relief, au-dessus de la barre */
+.onglet-central {
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin-top: -26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: 4px solid var(--fond);
+  box-shadow: 0 4px 12px rgba(217, 139, 106, 0.45);
+}
+.onglet-central svg { width: 26px; height: 26px; }
